@@ -64,7 +64,7 @@ class ShoppingCartTest {
     
   }
   
-  @Test
+   @Test
   def checkoutPrice():Unit = {
     
     shoppingCart.AddOrder("Apple")
@@ -72,11 +72,30 @@ class ShoppingCartTest {
     shoppingCart.AddOrder("Orange")
     shoppingCart.AddOrder("Orange")
      shoppingCart.AddOrder("Orange")
+     shoppingCart.AddOrder("Orange")
     
     val totalPrice = shoppingCart.generateBill
     
    
-    assertTrue("1.95".equals(totalPrice))
+    assertTrue("1.35".equals(totalPrice))
+    
+  }
+  
+  @Test
+   def checkoutWithOffer():Unit = {
+    
+    shoppingCart.AddOrder("Apple")
+    shoppingCart.AddOrder("Apple")
+    shoppingCart.AddOrder("Apple")
+    shoppingCart.AddOrder("Orange")
+    shoppingCart.AddOrder("Orange")
+     shoppingCart.AddOrder("Orange")
+     shoppingCart.AddOrder("Orange")
+    
+    val totalPrice = shoppingCart.generateBill
+    
+   
+    assertFalse("1.95".equals(totalPrice))
     
   }
 
