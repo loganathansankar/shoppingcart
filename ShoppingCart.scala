@@ -62,14 +62,66 @@ class ShoppingCart extends ShoppingCartTrait {
     
     
     
-  
+  total = calculateDiscount(total)
     
     val formatter = new DecimalFormat("#.##")
- 
+    
+
     formatter.format(total);
   }
   
-  
+  def calculateDiscount(total:Double):Double = {
+    
+    var countMap = scala.collection.mutable.Map[String,Int]()
+    
+    var totalPrice = total
+    
+   for (oItem <- orderItem) {
+     
+     val currentItem: Item = itemMap.getOrElse(oItem, null)
+
+      if (null != currentItem) {
+        
+       
+        
+          if(countMap.contains(currentItem.ItemName)) {
+            
+            var curCount = countMap.getOrElse(currentItem.ItemName, 0)
+            curCount = curCount + 1;
+            countMap(currentItem.ItemName) = curCount
+            
+          } else {
+            countMap(currentItem.ItemName) = 1
+          }
+        
+      }
+     
+   }
+    
+     for (itemCountMap <- countMap) {
+       
+       val key:String = itemCountMap._1
+       val value = itemCountMap._2
+       
+        
+       
+       val currentItem: Item = itemMap.getOrElse(key, null)
+       val discountList = discountMap.getOrElse(key, null);
+
+      if (null != currentItem && null !=discountList) {
+        val deduct = value / discountList.buyTotal
+       
+       
+        totalPrice = totalPrice - (deduct * currentItem.ItemPrice)
+      }
+       
+       
+     }
+    
+    
+    totalPrice
+    
+  }
   
 
 }
